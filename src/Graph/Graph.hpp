@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <glm/vec2.hpp>
-#include "Pathfinder/IPathfinder.hpp"
 
 class GraphNode;
 using GraphNodePtr = std::weak_ptr<GraphNode>;
@@ -76,6 +75,7 @@ public:
     void AddDoubleLink(int from, int to, int weight);
 
     GraphNodePtr GetNode(int node_index) const;
+    std::size_t Size() const;
 private:
     std::vector<std::shared_ptr<GraphNode>> m_nodes;
 };

@@ -23,3 +23,8 @@ GraphNodePtr Graph::GetNode(const int node_index) const
     return m_nodes[node_index];
 }
 
+std::size_t Graph::Size() const
+{
+    return m_nodes.size();
+}
+
