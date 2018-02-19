@@ -11,12 +11,17 @@ project(Pathfinding)
 SET(PATHFINDING_INC
 	"Graph/DotParser.hpp"
 	"Graph/Graph.hpp"
+	"Pathfinder/IPathfinder.hpp"
+	"Pathfinder/DijkstraPathfinder.hpp"
+	"Pathfinder/AStarPathfinder.hpp"
 	)
 	
 SET(PATHFINDING_SOURCE
 	"main.cpp"
 	"Graph/DotParser.cpp"
 	"Graph/Graph.cpp"
+    "Pathfinder/DijkstraPathfinder.cpp"
+	"Pathfinder/AStarPathfinder.cpp"
 )
 SET(PATHFINDING_SRC ${PATHFINDING_INC} ${PATHFINDING_SOURCE})
 foreach(_source IN ITEMS ${PATHFINDING_SRC})
