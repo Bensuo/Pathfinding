@@ -24,4 +24,4 @@ foreach(_source IN ITEMS ${PATHFINDING_SRC})
 endforeach()
 
 include_directories("./")
-add_library(Pathfinding STATIC ${PATHFINDING_SRC})
+add_executable(Pathfinding ${PATHFINDING_SRC})
