@@ -20,8 +20,8 @@ int main(int argc, char* argv[])
 	DotParser parser;
 	const auto graph = parser.Read("graph.dot");
 
-    PrintPath(AStarPathfinder{}, graph, 0, 10);
-    PrintPath(DijkstraPathfinder{}, graph, 0, 10);
+    PrintPath(AStarPathfinder{}, graph, 0, 63);
+    //PrintPath(DijkstraPathfinder{}, graph, 0, 10);
 
     std::cin.get();
 }

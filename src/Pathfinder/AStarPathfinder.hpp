@@ -3,6 +3,8 @@
 #define ASTARPATHFINDER_HPP
 
 #include "IPathfinder.hpp"
+#include <memory>
+#include "Graph/Graph.hpp"
 
 class AStarPathfinder : public IPathfinder
 {
@@ -22,6 +24,8 @@ public:
     * \return If the path exits, a deque of node indices. If the path does not exist, an empty deque.
     */
     PathResult FindPath(const Graph& graph, int start_index, int end_index) const override;
+private:
+	int Heuristic(std::weak_ptr<GraphNode> from, std::weak_ptr<GraphNode> goal) const;
 };
 
 #endif // ASTARPATHFINDER_HPP
