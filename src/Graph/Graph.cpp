@@ -1,8 +1,5 @@
 #include "Graph/Graph.hpp"
 
-Graph::Graph() = default;
-Graph::~Graph() = default;
-
 void Graph::AddNode(int id, const glm::vec2& pos)
 {
 	m_nodes.push_back(std::make_shared<GraphNode>(id, pos));
@@ -19,5 +16,10 @@ void Graph::AddDoubleLink(int from, int to, int weight)
 {
 	AddSingleLink(from, to, weight);
 	AddSingleLink(to, from, weight);
+}
+
+GraphNodePtr Graph::GetNode(const int node_index) const
+{
+    return m_nodes[node_index];
 }
 
