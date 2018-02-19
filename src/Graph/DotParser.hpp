@@ -1,15 +1,15 @@
 #pragma once
 #include <string>
-namespace Graph
-{
-	class DotParser
+#include "Graph.hpp"
+
+class DotParser
 	{
 	public:
 		DotParser();
 		~DotParser();
 
-		bool Read(std::string filename);
+		Graph Read(std::string filename);
 
 	private:
 	};
-}
+

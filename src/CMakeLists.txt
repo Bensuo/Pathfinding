@@ -9,12 +9,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(Pathfinding)
 
 SET(PATHFINDING_INC
-	Graph/DotParser.hpp
+	"Graph/DotParser.hpp"
+	"Graph/Graph.hpp"
 	)
 	
 SET(PATHFINDING_SOURCE
-	main.cpp
-	Graph/DotParser.cpp
+	"main.cpp"
+	"Graph/DotParser.cpp"
+	"Graph/Graph.cpp"
 )
 SET(PATHFINDING_SRC ${PATHFINDING_INC} ${PATHFINDING_SOURCE})
 foreach(_source IN ITEMS ${PATHFINDING_SRC})
