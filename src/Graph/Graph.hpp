@@ -49,7 +49,14 @@ public:
     {
         m_links.push_back(link);
     }
-
+	const std::vector<GraphLink>& GetLinks() const
+    {
+		return m_links;
+    }
+	const glm::vec2& GetPosition() const
+    {
+		return m_pos;
+    }
     int GetID() const
     {
         return m_id;
