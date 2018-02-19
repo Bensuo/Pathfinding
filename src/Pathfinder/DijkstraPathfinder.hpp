@@ -21,7 +21,7 @@ public:
     * \param end_index The index of the end node.
     * \return If the path exits, a deque of node indices. If the path does not exist, an empty deque.
     */
-    PathResult FindPath(const Graph& graph, int start_index, int end_index) override;
+    PathResult FindPath(const Graph& graph, int start_index, int end_index) const override;
 };
 
 #endif // DIJKSTRAPATHFINDER_HPP

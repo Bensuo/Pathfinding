@@ -23,7 +23,7 @@ public:
      * \param end_index The index of the end node.
      * \return If the path exits, a deque of node indices. If the path does not exist, an empty deque.
      */
-    virtual PathResult FindPath(const Graph& graph, int start_index, int end_index) = 0;
+    virtual PathResult FindPath(const Graph& graph, int start_index, int end_index) const = 0;
 };
 
 #endif // IPATHFINDER_HPP

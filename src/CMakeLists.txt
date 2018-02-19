@@ -14,6 +14,7 @@ SET(PATHFINDING_INC
 	"Pathfinder/IPathfinder.hpp"
 	"Pathfinder/DijkstraPathfinder.hpp"
 	"Pathfinder/AStarPathfinder.hpp"
+	"Pathfinder/IHeuristic.hpp"
 	)
 	
 SET(PATHFINDING_SOURCE
@@ -23,6 +24,7 @@ SET(PATHFINDING_SOURCE
     "Pathfinder/DijkstraPathfinder.cpp"
 	"Pathfinder/AStarPathfinder.cpp"
 )
+
 SET(PATHFINDING_SRC ${PATHFINDING_INC} ${PATHFINDING_SOURCE})
 foreach(_source IN ITEMS ${PATHFINDING_SRC})
     get_filename_component(_source_path "${_source}" PATH)

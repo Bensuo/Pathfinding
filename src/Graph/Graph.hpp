@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <glm/vec2.hpp>
+#include "Pathfinder/IPathfinder.hpp"
 
 class Graph
 {
