@@ -3,13 +3,11 @@
 #include "Graph.hpp"
 
 class DotParser
-	{
-	public:
-		DotParser();
-		~DotParser();
+{
+public:
+    DotParser();
+    ~DotParser();
 
-		Graph Read(std::string filename);
-
-	private:
-	};
+    Graph Read(const std::string& filename);
+};
 

@@ -1,9 +1,11 @@
 #include "Graph/Graph.hpp"
-Graph::Graph() {}
-Graph::~Graph() {}
-void Graph::AddNode(int id, int x, int y)
+
+Graph::Graph() = default;
+Graph::~Graph() = default;
+
+void Graph::AddNode(int id, const glm::vec2& pos)
 {
-	m_nodes.push_back(std::make_shared<GraphNode>(id, x, y));
+	m_nodes.push_back(std::make_shared<GraphNode>(id, pos));
 }
 
 void Graph::AddSingleLink(int from, int to, int weight)

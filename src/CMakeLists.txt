@@ -27,3 +27,6 @@ endforeach()
 
 include_directories("./")
 add_executable(Pathfinding ${PATHFINDING_SRC})
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../externals/glm-0.9.9-a2)
+target_include_directories(Pathfinding PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../externals/glm-0.9.9-a2)

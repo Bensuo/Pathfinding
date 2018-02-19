@@ -12,7 +12,7 @@
 
 	}
 
-	Graph DotParser::Read(std::string filename)
+	Graph DotParser::Read(const std::string& filename)
 	{
 		Graph graph;
 		std::ifstream dot_in(filename);
@@ -30,7 +30,7 @@
 				int id = std::stoi(token);
 				int x = std::stoi(args.substr(args.find("[pos=\"") + 6, args.find(',') - 1));
 				int y = std::stoi(args.substr(args.find(',') + 1, args.find("\"]")-2));
-				graph.AddNode(id, x, y);
+                graph.AddNode(id, { x, y });
 			}
 			else
 			{
