@@ -1,6 +1,6 @@
 #include "AStarPathfinder.hpp"
 
-PathResult AStarPathfinder::FindPath(const Graph& graph, int start_index, int end_index) const
+Path AStarPathfinder::FindPath(const Graph& graph, int start, int goal) const
 {
     return {};
 }

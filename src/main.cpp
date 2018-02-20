@@ -1,5 +1,4 @@
 #include "Graph\DotParser.hpp"
-#include "Pathfinder/AStarPathfinder.hpp"
 #include "Pathfinder/DijkstraPathfinder.hpp"
 #include <iostream>
 
@@ -20,8 +19,7 @@ int main(int argc, char* argv[])
 	DotParser parser;
 	const auto graph = parser.Read("graph.dot");
 
-    PrintPath(AStarPathfinder{}, graph, 0, 10);
-    PrintPath(DijkstraPathfinder{}, graph, 0, 10);
+    PrintPath(DijkstraPathfinder{}, graph, 0, 63);
 
     std::cin.get();
 }
