@@ -4,6 +4,7 @@
 #include <sstream>
 #include <Pathfinder/AStarPathfinder.hpp>
 #include <Timer/Timer.hpp>
+#include "Pathfinder/IDAStarPathfinder.hpp"
 
 void PrintPath(const IPathfinder& pathfinder, const Graph& graph, int start_node, int end_node)
 {
@@ -90,6 +91,10 @@ int main(int argc, char* argv[])
     std::cout << "Dijkstra Pathfinder results:" << std::endl;
     PrintPath(DijkstraPathfinder{}, graph, start_node, end_node);
     std::cout << std::endl;
+
+	std::cout << "IDA* Pathfinder results:" << std::endl;
+	PrintPath(IDAStarPathfinder{}, graph, start_node, end_node);
+	std::cout << std::endl;
 
     std::cin.get();
 }

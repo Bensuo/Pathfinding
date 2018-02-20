@@ -14,6 +14,7 @@ SET(PATHFINDING_INC
 	"Pathfinder/IPathfinder.hpp"
 	"Pathfinder/DijkstraPathfinder.hpp"
 	"Pathfinder/AStarPathfinder.hpp"
+	"Pathfinder/IDAStarPathfinder.hpp"
 	"Pathfinder/IHeuristic.hpp"
 	"Timer/Timer.hpp"
 	)
@@ -24,6 +25,7 @@ SET(PATHFINDING_SOURCE
 	"Graph/Graph.cpp"
     "Pathfinder/DijkstraPathfinder.cpp"
 	"Pathfinder/AStarPathfinder.cpp"
+	"Pathfinder/IDAStarPathfinder.cpp"
 )
 
 SET(PATHFINDING_SRC ${PATHFINDING_INC} ${PATHFINDING_SOURCE})
