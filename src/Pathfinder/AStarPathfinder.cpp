@@ -5,13 +5,14 @@
 #include <functional>
 #include <glm/glm.hpp>
 
-using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
+using Cost = int;
+using NodeQueue = std::priority_queue<std::pair<Cost, GraphNodePtr>, std::vector<std::pair<Cost, GraphNodePtr>>, std::greater<>>;
 
-Path AStarPathfinder::FindPath(const Graph& graph, const int start, const int goal) const
+Path AStarPathfinder::FindPath(const Graph& graph, const NodeIndex start, const NodeIndex goal) const
 {
 	Path result;
 
-	std::unordered_map<GraphNodePtr, int> cost_so_far;
+	std::unordered_map<GraphNodePtr, Cost> cost_so_far;
 	std::unordered_map<GraphNodePtr, GraphNodePtr> came_from;
 	NodeQueue nodes;
 
@@ -49,21 +50,21 @@ Path AStarPathfinder::FindPath(const Graph& graph, const int start, const int go
     return GetPath(came_from, start_node, current);
 }
 
-Path AStarPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start_node, GraphNodePtr& current)
+Path AStarPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start, GraphNodePtr& goal) const
 {
     Path result;
 
-    result.push_back(current->GetID());
+    result.push_back(goal->GetID());
 
-    while (current != start_node)
+    while (goal != start)
     {
-        current = came_from[current];
-        result.push_front(current->GetID());
+        goal = came_from[goal];
+        result.push_front(goal->GetID());
     }
     return result;
 }
 
-int AStarPathfinder::Heuristic(const GraphNodeWeakPtr& from, const GraphNodeWeakPtr& goal) const
+int AStarPathfinder::Heuristic(const GraphNodeWeakPtr& current, const GraphNodeWeakPtr& goal) const
 {
-	return distance(from.lock()->GetPosition(), goal.lock()->GetPosition());
+	return distance(current.lock()->GetPosition(), goal.lock()->GetPosition());
 }

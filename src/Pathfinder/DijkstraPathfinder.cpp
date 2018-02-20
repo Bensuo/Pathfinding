@@ -5,9 +5,10 @@
 #include <unordered_map>
 #include <functional>
 
-using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
+using Cost = int;
+using NodeQueue = std::priority_queue<std::pair<Cost, GraphNodePtr>, std::vector<std::pair<Cost, GraphNodePtr>>, std::greater<>>;
 
-Path DijkstraPathfinder::FindPath(const Graph& graph, const int start, int goal) const
+Path DijkstraPathfinder::FindPath(const Graph& graph, const NodeIndex start, const NodeIndex goal) const
 {
     std::unordered_map<GraphNodePtr, int> cost_so_far;
     std::unordered_map<GraphNodePtr, GraphNodePtr> came_from;
@@ -46,16 +47,16 @@ Path DijkstraPathfinder::FindPath(const Graph& graph, const int start, int goal)
     return {};
 }
 
-Path DijkstraPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start_node, GraphNodePtr& current)
+Path DijkstraPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start, GraphNodePtr& goal)
 {
     Path result;
 
-    result.push_back(current->GetID());
+    result.push_back(goal->GetID());
 
-    while (current != start_node)
+    while (goal != start)
     {
-        current = came_from[current];
-        result.push_front(current->GetID());
+        goal = came_from[goal];
+        result.push_front(goal->GetID());
     }
     return result;
 }

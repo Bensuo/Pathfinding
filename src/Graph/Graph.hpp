@@ -5,13 +5,15 @@
 #include <glm/vec2.hpp>
 
 class GraphNode;
+using NodeIndex = int;
+using Weight = int;
 using GraphNodeWeakPtr = std::weak_ptr<GraphNode>;
 using GraphNodePtr = std::shared_ptr<GraphNode>;
 
 class GraphLink
 {
 public:
-    GraphLink(const GraphNodeWeakPtr& from, const GraphNodeWeakPtr& to, int weight)
+    GraphLink(const GraphNodeWeakPtr& from, const GraphNodeWeakPtr& to, Weight weight)
         : m_from(from),
         m_to(to),
         m_weight(weight)
@@ -29,20 +31,20 @@ public:
         return m_to;
     }
 
-    int GetWeight() const
+    Weight GetWeight() const
     {
         return m_weight;
     }
 private:
     GraphNodeWeakPtr m_from;
     GraphNodeWeakPtr m_to;
-    int m_weight;
+    Weight m_weight;
 };
 
 class GraphNode
 {
 public:
-    GraphNode(int id, const glm::vec2& pos)
+    GraphNode(NodeIndex id, const glm::vec2& pos)
         : m_id(id), m_pos(pos)
     {}
 
@@ -61,12 +63,12 @@ public:
         return m_pos;
     }
 
-    int GetID() const
+    NodeIndex GetID() const
     {
         return m_id;
     }
 private:
-    int m_id;
+    NodeIndex m_id;
     glm::vec2 m_pos;
     std::vector<GraphLink> m_links;
 };
@@ -81,11 +83,11 @@ public:
     Graph& operator=(const Graph& pathfinder) = default;
     Graph& operator=(Graph&& pathfinder) = default;
 
-    void AddNode(int id, const glm::vec2& pos);
-    void AddSingleLink(int from, int to, int weight);
-    void AddDoubleLink(int from, int to, int weight);
+    void AddNode(NodeIndex id, const glm::vec2& pos);
+    void AddSingleLink(NodeIndex from, NodeIndex to, Weight weight);
+    void AddDoubleLink(NodeIndex from, NodeIndex to, Weight weight);
 
-    GraphNodeWeakPtr GetNode(int node_index) const;
+    GraphNodeWeakPtr GetNode(NodeIndex node_index) const;
     std::size_t Size() const;
 private:
     std::vector<GraphNodePtr> m_nodes;
