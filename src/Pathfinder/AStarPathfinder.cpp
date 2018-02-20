@@ -7,7 +7,7 @@
 
 using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
 
-Path AStarPathfinder::FindPath(const Graph& graph, int start, int goal) const
+Path AStarPathfinder::FindPath(const Graph& graph, const int start, const int goal) const
 {
 	Path result;
 
@@ -63,7 +63,7 @@ Path AStarPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start_n
     return result;
 }
 
-int AStarPathfinder::Heuristic(std::weak_ptr<GraphNode> from, std::weak_ptr<GraphNode> goal) const
+int AStarPathfinder::Heuristic(const GraphNodeWeakPtr& from, const GraphNodeWeakPtr& goal) const
 {
 	return distance(from.lock()->GetPosition(), goal.lock()->GetPosition());
 }

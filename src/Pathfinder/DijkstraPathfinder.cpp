@@ -7,7 +7,7 @@
 
 using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
 
-Path DijkstraPathfinder::FindPath(const Graph& graph, int start, int goal) const
+Path DijkstraPathfinder::FindPath(const Graph& graph, const int start, int goal) const
 {
     std::unordered_map<GraphNodePtr, int> cost_so_far;
     std::unordered_map<GraphNodePtr, GraphNodePtr> came_from;

@@ -5,6 +5,14 @@
 #include <Pathfinder/IPathfinder.hpp>
 #include <memory>
 #include <Graph/Graph.hpp>
+#include <unordered_map>
+#include <queue>
+#include <functional>
+
+using Cost = int;
+using CostMap = std::unordered_map<GraphNodePtr, Cost>;
+using VisitedMap = std::unordered_map<GraphNodePtr, GraphNodePtr>;
+using NodeQueue = std::priority_queue<std::pair<Cost, GraphNodePtr>, std::vector<std::pair<Cost, GraphNodePtr>>, std::greater<>>;
 
 class AStarPathfinder : public IPathfinder
 {
@@ -28,7 +36,7 @@ public:
 private:
     static Path GetPath(VisitedMap& came_from, const GraphNodePtr& start_node, GraphNodePtr& current);
 
-    int Heuristic(std::weak_ptr<GraphNode> from, std::weak_ptr<GraphNode> goal) const;
+    int Heuristic(const GraphNodeWeakPtr& from, const GraphNodeWeakPtr& goal) const;
 };
 
 #endif // ASTARPATHFINDER_HPP
