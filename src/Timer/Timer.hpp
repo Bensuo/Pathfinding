@@ -5,7 +5,7 @@
 
 class Timer {
 	using high_resolution_clock = std::chrono::high_resolution_clock;
-	using milliseconds = std::chrono::milliseconds;
+	using nanoseconds = std::chrono::nanoseconds;
 public:
 	explicit Timer(bool run = false)
 	{
@@ -20,14 +20,14 @@ public:
 		start = high_resolution_clock::now();
 	}
 
-	milliseconds Elapsed() const
+	nanoseconds Elapsed() const
 	{
-		return std::chrono::duration_cast<milliseconds>(high_resolution_clock::now() - start);
+		return std::chrono::duration_cast<nanoseconds>(high_resolution_clock::now() - start);
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Timer& timer)
 	{
-		return out << timer.Elapsed().count();
+		return out << timer.Elapsed().count() / 1000000.0;
 	}
 private:
 	high_resolution_clock::time_point start;
