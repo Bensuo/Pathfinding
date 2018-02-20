@@ -2,7 +2,7 @@
 #ifndef ASTARPATHFINDER_HPP
 #define ASTARPATHFINDER_HPP
 
-#include "IPathfinder.hpp"
+#include <Pathfinder/IPathfinder.hpp>
 #include <memory>
 #include "Graph/Graph.hpp"
 
@@ -17,13 +17,13 @@ public:
     AStarPathfinder& operator=(AStarPathfinder&& pathfinder) = default;
 
     /**
-    * \brief FindPath Attempt to find the shortest path between the nodes at \p start_index and \p end_index
+    * \brief FindPath Attempt to find the shortest path between the nodes at \p start and \p goal
     * \param graph The graph you want to search.
-    * \param start_index The index of the start node.
-    * \param end_index The index of the end node.
+    * \param start The index of the start node.
+    * \param goal The index of the end node.
     * \return If the path exits, a deque of node indices. If the path does not exist, an empty deque.
     */
-    PathResult FindPath(const Graph& graph, int start_index, int end_index) const override;
+    Path FindPath(const Graph& graph, int start_index, int end_index) const override;
 private:
 	int Heuristic(std::weak_ptr<GraphNode> from, std::weak_ptr<GraphNode> goal) const;
 };

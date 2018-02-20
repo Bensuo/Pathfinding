@@ -6,9 +6,9 @@
 #include <glm/glm.hpp>
 
 typedef std::priority_queue<std::pair<int, std::shared_ptr<GraphNode>>, std::vector<std::pair<int, std::shared_ptr<GraphNode>>>, std::greater<std::pair<int, std::shared_ptr<GraphNode>>>> NodeQueue;
-PathResult AStarPathfinder::FindPath(const Graph& graph, int start_index, int end_index) const
+Path AStarPathfinder::FindPath(const Graph& graph, int start_index, int end_index) const
 {
-	PathResult result;
+	Path result;
 	std::unordered_map<std::shared_ptr<GraphNode>, int> cost_so_far;
 	std::unordered_map<std::shared_ptr<GraphNode>, std::shared_ptr<GraphNode>> came_from;
 	NodeQueue nodes;

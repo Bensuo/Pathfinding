@@ -1,5 +1,4 @@
 #include "Graph\DotParser.hpp"
-#include "Pathfinder/AStarPathfinder.hpp"
 #include "Pathfinder/DijkstraPathfinder.hpp"
 #include <iostream>
 

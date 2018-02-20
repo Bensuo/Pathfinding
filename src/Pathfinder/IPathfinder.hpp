@@ -2,9 +2,9 @@
 #ifndef IPATHFINDER_HPP
 #define IPATHFINDER_HPP
 #include <deque>
+#include <Graph/Graph.hpp>
 
-class Graph;
-using PathResult = std::deque<int>;
+using Path = std::deque<int>;
 
 class IPathfinder
 {
@@ -19,11 +19,11 @@ public:
     /**
      * \brief FindPath Attempt to find the shortest path between the nodes at \p start_index and \p end_index
      * \param graph The graph you want to search.
-     * \param start_index The index of the start node.
-     * \param end_index The index of the end node.
+     * \param start The index of the start node.
+     * \param goal The index of the end node.
      * \return If the path exits, a deque of node indices. If the path does not exist, an empty deque.
      */
-    virtual PathResult FindPath(const Graph& graph, int start_index, int end_index) const = 0;
+    virtual Path FindPath(const Graph& graph, int start, int goal) const = 0;
 };
 
 #endif // IPATHFINDER_HPP
