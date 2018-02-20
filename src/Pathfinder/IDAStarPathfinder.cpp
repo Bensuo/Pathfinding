@@ -1,19 +1,19 @@
 #include "IDAStarPathfinder.hpp"
 #include <functional>
 #include <queue>
-#include <stack>
 #include <glm/detail/func_geometric.inl>
 
-using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
-Path IDAStarPathfinder::FindPath(const Graph &graph, int start, int goal) const
+using Cost = int;
+using NodeQueue = std::priority_queue<std::pair<Cost, GraphNodePtr>, std::vector<std::pair<Cost, GraphNodePtr>>, std::greater<>>;
+
+Path IDAStarPathfinder::FindPath(const Graph& graph, const NodeIndex start, const NodeIndex goal) const
 {
 	Path result;
-	int threshold = 0;
-	bool goal_found = false;
-	std::unordered_map<GraphNodePtr, int> cost_so_far;
+	auto threshold = 0;
+	auto goal_found = false;
+	std::unordered_map<GraphNodePtr, NodeIndex> cost_so_far;
 	std::unordered_map<GraphNodePtr, GraphNodePtr> came_from;
 	
-
 	auto start_node = graph.GetNode(start).lock();
 	const auto end_node = graph.GetNode(goal).lock();
 	
@@ -29,7 +29,7 @@ Path IDAStarPathfinder::FindPath(const Graph &graph, int start, int goal) const
 		{
 			const auto current = nodes.top().second;
 			nodes.pop();
-			int min = INT_MAX;
+			auto min = INT_MAX;
 			if (cost_so_far[current] + Heuristic(current, end_node) > threshold)
 			{
 				threshold = cost_so_far[current] + Heuristic(current, end_node);
@@ -48,7 +48,7 @@ Path IDAStarPathfinder::FindPath(const Graph &graph, int start, int goal) const
 				if (!cost_so_far.count(next) || new_cost < cost_so_far[next])
 				{
 					cost_so_far[next] = new_cost;
-					int temp = new_cost + Heuristic(next, end_node);
+					auto temp = new_cost + Heuristic(next, end_node);
 					nodes.emplace(temp,next);
 					came_from[next] = current;
 					if (temp<min)
@@ -68,20 +68,21 @@ Path IDAStarPathfinder::FindPath(const Graph &graph, int start, int goal) const
 	return GetPath(came_from, start_node, current);
 }
 
-Path IDAStarPathfinder::GetPath(VisitedMap &came_from, const GraphNodePtr &start_node, GraphNodePtr &current)
+Path IDAStarPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start, GraphNodePtr& goal)
 {
 	Path result;
 
-	result.push_back(current->GetID());
+	result.push_back(goal->GetID());
 
-	while (current != start_node)
+	while (goal != start)
 	{
-		current = came_from[current];
-		result.push_front(current->GetID());
+        goal = came_from[goal];
+		result.push_front(goal->GetID());
 	}
 	return result;
 }
-int IDAStarPathfinder::Heuristic(const GraphNodeWeakPtr &from, const GraphNodeWeakPtr &goal) const
+
+int IDAStarPathfinder::Heuristic(const GraphNodeWeakPtr& current, const GraphNodeWeakPtr& goal) const
 {
-	return distance(from.lock()->GetPosition(), goal.lock()->GetPosition());
+	return distance(current.lock()->GetPosition(), goal.lock()->GetPosition());
 }
