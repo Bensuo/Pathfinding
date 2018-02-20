@@ -5,51 +5,65 @@
 #include <functional>
 #include <glm/glm.hpp>
 
-typedef std::priority_queue<std::pair<int, std::shared_ptr<GraphNode>>, std::vector<std::pair<int, std::shared_ptr<GraphNode>>>, std::greater<std::pair<int, std::shared_ptr<GraphNode>>>> NodeQueue;
-Path AStarPathfinder::FindPath(const Graph& graph, int start_index, int end_index) const
+using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
+
+Path AStarPathfinder::FindPath(const Graph& graph, int start, int goal) const
 {
 	Path result;
-	std::unordered_map<std::shared_ptr<GraphNode>, int> cost_so_far;
-	std::unordered_map<std::shared_ptr<GraphNode>, std::shared_ptr<GraphNode>> came_from;
+
+	std::unordered_map<GraphNodePtr, int> cost_so_far;
+	std::unordered_map<GraphNodePtr, GraphNodePtr> came_from;
 	NodeQueue nodes;
-	auto start_node = graph.GetNode(start_index).lock();
-	auto end_node = graph.GetNode(end_index).lock();
+
+	auto start_node = graph.GetNode(start).lock();
+    const auto end_node = graph.GetNode(goal).lock();
+
 	nodes.emplace(0, start_node);
 	came_from[start_node] = start_node;
 	cost_so_far[start_node] = 0;
+
 	while (!nodes.empty())
 	{
-		auto current = nodes.top().second;
+	    const auto current = nodes.top().second;
 		nodes.pop();
 
 		if (current == end_node)
 		{
 			break;
 		}
-		for (auto link : current->GetLinks())
+		for (const auto& link : current->GetLinks())
 		{
 			auto next = link.GetTo().lock();
-			int new_cost = cost_so_far[current] + link.GetWeight();
+		    const auto new_cost = cost_so_far[current] + link.GetWeight();
 			if (!cost_so_far.count(next) || new_cost < cost_so_far[next])
 			{
 				cost_so_far[next] = new_cost;
-				int p = new_cost + Heuristic(next, end_node);
+			    auto p = new_cost + Heuristic(next, end_node);
 				nodes.emplace(p, next);
 				came_from[next] = current;
 			}
 		}
 	}
+
 	auto current = end_node;
-	result.push_back(current->GetID());
-	while (current != start_node)
-	{
-		current = came_from[current];
-		result.push_front(current->GetID());
-	}
+    return GetPath(came_from, start_node, current);
+}
+
+Path AStarPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start_node, GraphNodePtr& current)
+{
+    Path result;
+
+    result.push_back(current->GetID());
+
+    while (current != start_node)
+    {
+        current = came_from[current];
+        result.push_front(current->GetID());
+    }
     return result;
 }
 
 int AStarPathfinder::Heuristic(std::weak_ptr<GraphNode> from, std::weak_ptr<GraphNode> goal) const
 {
-	return glm::distance(from.lock()->GetPosition(), goal.lock()->GetPosition());
+	return distance(from.lock()->GetPosition(), goal.lock()->GetPosition());
 }

@@ -5,54 +5,57 @@
 #include <unordered_map>
 #include <functional>
 
-Path DijkstraPathfinder::GeneratePath(int start, std::unordered_map<int, int> came_from, int& current)
-{
-    Path path;
-    path.push_front(current);
-    while (current != start) {
-        current = came_from[current];
-        path.push_front(current);
-    }
-    return path;
-}
+using NodeQueue = std::priority_queue<std::pair<int, GraphNodePtr>, std::vector<std::pair<int, GraphNodePtr>>, std::greater<>>;
 
 Path DijkstraPathfinder::FindPath(const Graph& graph, int start, int goal) const
 {
-    using index = int;
-    using distance = int;
-    using priority_element = std::pair<distance, index>;
+    std::unordered_map<GraphNodePtr, int> cost_so_far;
+    std::unordered_map<GraphNodePtr, GraphNodePtr> came_from;
+    NodeQueue nodes;
 
-    std::unordered_map<index, index> came_from;
-    std::unordered_map<index, distance> cost_so_far;
-    std::priority_queue<priority_element, std::vector<priority_element>, std::greater<>> frontier;
+    auto start_node = graph.GetNode(start).lock();
+    const auto end_node = graph.GetNode(goal).lock();
 
-    frontier.emplace(start, 0);
+    nodes.emplace(0, start_node);
+    came_from[start_node] = start_node;
+    cost_so_far[start_node] = 0;
 
-    came_from[start] = start;
-    cost_so_far[start] = 0;
+    while (!nodes.empty()) 
+    {
+        auto current = nodes.top().second;
+        nodes.pop();
 
-    while (!frontier.empty()) {
-
-        auto current = frontier.top().second;
-        frontier.pop();
-
-        if (current == goal)
+        if (current == end_node)
         {
-            return GeneratePath(start, came_from, current);
+            return GetPath(came_from, start_node, current);
         }
 
-        auto neigbours = graph.GetNode(current).lock()->GetLinks();
+        auto neigbours = current->GetLinks();
 
         for (const auto& next : neigbours) {
-            auto next_index = next.GetTo().lock()->GetID();
+            auto next_node = next.GetTo().lock();
             auto new_cost = cost_so_far[current] + next.GetWeight();
-            if (!cost_so_far.count(next_index) || new_cost < cost_so_far[next_index]) {
-                cost_so_far[next_index] = new_cost;
-                came_from[next_index] = current;
-                frontier.emplace(new_cost, next_index);
+            if (!cost_so_far.count(next.GetTo().lock()) || new_cost < cost_so_far[next.GetTo().lock()]) {
+                cost_so_far[next_node] = new_cost;
+                came_from[next_node] = current;
+                nodes.emplace(new_cost, next_node);
             }
         }
     }
 
     return {};
+}
+
+Path DijkstraPathfinder::GetPath(VisitedMap& came_from, const GraphNodePtr& start_node, GraphNodePtr& current)
+{
+    Path result;
+
+    result.push_back(current->GetID());
+
+    while (current != start_node)
+    {
+        current = came_from[current];
+        result.push_front(current->GetID());
+    }
+    return result;
 }

@@ -5,12 +5,13 @@
 #include <glm/vec2.hpp>
 
 class GraphNode;
-using GraphNodePtr = std::weak_ptr<GraphNode>;
+using GraphNodeWeakPtr = std::weak_ptr<GraphNode>;
+using GraphNodePtr = std::shared_ptr<GraphNode>;
 
 class GraphLink
 {
 public:
-    GraphLink(const GraphNodePtr& from, const GraphNodePtr& to, int weight)
+    GraphLink(const GraphNodeWeakPtr& from, const GraphNodeWeakPtr& to, int weight)
         : m_from(from),
         m_to(to),
         m_weight(weight)
@@ -33,8 +34,8 @@ public:
         return m_weight;
     }
 private:
-    GraphNodePtr m_from;
-    GraphNodePtr m_to;
+    GraphNodeWeakPtr m_from;
+    GraphNodeWeakPtr m_to;
     int m_weight;
 };
 
@@ -49,14 +50,17 @@ public:
     {
         m_links.push_back(link);
     }
+
     const std::vector<GraphLink>& GetLinks() const
     {
         return m_links;
     }
+
     const glm::vec2& GetPosition() const
     {
         return m_pos;
     }
+
     int GetID() const
     {
         return m_id;
@@ -81,10 +85,10 @@ public:
     void AddSingleLink(int from, int to, int weight);
     void AddDoubleLink(int from, int to, int weight);
 
-    GraphNodePtr GetNode(int node_index) const;
+    GraphNodeWeakPtr GetNode(int node_index) const;
     std::size_t Size() const;
 private:
-    std::vector<std::shared_ptr<GraphNode>> m_nodes;
+    std::vector<GraphNodePtr> m_nodes;
 };
 
 #endif // GRAPH_HPP

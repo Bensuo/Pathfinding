@@ -3,8 +3,15 @@
 #define IPATHFINDER_HPP
 #include <deque>
 #include <Graph/Graph.hpp>
+#include <unordered_map>
+#include <queue>
+#include <functional>
 
 using Path = std::deque<int>;
+using Cost = int;
+using CostMap = std::unordered_map<GraphNodePtr, Cost>;
+using VisitedMap = std::unordered_map<GraphNodePtr, GraphNodePtr>;
+using NodeQueue = std::priority_queue<std::pair<Cost, GraphNodePtr>, std::vector<std::pair<Cost, GraphNodePtr>>, std::greater<>>;
 
 class IPathfinder
 {
