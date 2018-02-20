@@ -15,6 +15,7 @@ SET(PATHFINDING_INC
 	"Pathfinder/DijkstraPathfinder.hpp"
 	"Pathfinder/AStarPathfinder.hpp"
 	"Pathfinder/IHeuristic.hpp"
+	"Timer/Timer.hpp"
 	)
 	
 SET(PATHFINDING_SOURCE
